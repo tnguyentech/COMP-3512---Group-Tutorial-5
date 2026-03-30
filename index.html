@@ -1,16 +1,18 @@
+<!-- Group Members: Tony Nguyen, Patrick Hsueh -->
+
 <!DOCTYPE html>
 <html lang=""en">
 <head>
     <title>Book SPA</title>
     <style>
-
+        
     </style>
 </head>
 <body>
     <h1>Book Manager</h1>
 
     <!-- Navigation-->
-     <button id=""showList>Book List</button>
+     <button id="showList>Book List</button>
      <button id="showForm">Add Book</button>
 
      <!-- Book List View -->
@@ -26,7 +28,7 @@
             <input type="text" id="title" placeholder="Title" required>
             <br>
             <br>
-            <input type="text" id="author" palceholder="Author" required>
+            <input type="text" id="author" placeholder="Author" required>
             <br>
             <br>
             <button type="submit">Add Book</button>
@@ -35,9 +37,74 @@
 
        <script>
         //Add Code here
+           let booksJSON = `[
+              { "title": "1984", "author": "George Orwell" },
+              { "title": "To Kill a Mockingbird", "author": "Harper Lee" },
+              { "title": "The Great Gatsby", "author": "F. Scott Fitzgerald" },
+              { "title": "Pride and Prejudice", "author": "Jane Austen" },
+              { "title": "The Hobbit", "author": "J.R.R. Tolkien" }
+        ]`; = 
 
-        fetch("data.json")
+           let books = json.parse(booksJSON); 
 
+           // switch to list view
+        let showListButton = document.getElementById("showList");
+           // switch to form view
+        let showFormButton = document.getElementById("showForm");
+           // show hide 
+        let listView = document.getElementById("listView");
+        let formView = document.getElementById("formView");
+           //  display books 
+        let bookList = document.getElementById("bookList");
+           // handles submiut form
+        let bookForm = document.getElementById("bookForm");
+        let titleInput = document.getElementById("title");
+        let authorInput = document.getElementById("author");
+
+        // diusplay books function
+        function displayBooks() {
+            bookList.innerHTML = "";
+            for (let i = 0; i < books.length; i++) {
+                let li = document.createElement("li");
+                li.textContent = books[i].title + " by " + books[i].author;
+                bookList.appendChild(li);
+            }
+        }
+
+         // Show list view
+        showListButton.addEventListener("click", function () {
+            listView.style.display = "block";
+            formView.style.display = "none";
+        });
+
+        // Show form view
+        showFormButton.addEventListener("click", function () {
+            listView.style.display = "none";
+            formView.style.display = "block";
+        });
+
+        // Add new book
+        bookForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+            
+            let newTitle = titleInput.value;
+            let newAuthor = authorInput.value;
+            let newBook = {
+                title: newTitle,
+                author: newAuthor
+            };
+
+            books.push(newBook);
+            titleInput.value = "";
+            authorInput.value = "";
+
+            displayBooks();
+
+            listView.style.display = "block";
+            formView.style.display = "none";
+        });
+        // starting display
+        displayBooks();
        </script>
 </body>
 
